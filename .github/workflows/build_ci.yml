@@ -27,8 +27,6 @@ jobs:
       volumes: 
         - /etc/localtime:/etc/localtime:ro  
 
-    env:
-
     strategy:
       # If one job fails others are canceled
       fail-fast: true
@@ -42,10 +40,10 @@ jobs:
 
     steps:
       - name: Trigger jenkins
-      run: |
-        echo "$JENKINS_SERVER_IP $JENKINS_SERVER_NAME" >> /etc/hosts
-        USERLIB_SDK_JOB_NAME="from_github_build_sdk_linux64"
-        curl --capath "/root/altair_certs" --cacert "/root/altair_certs/wildcard_europe_altair_com.crt" -i -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$CI_COMMIT_SHA&branch=$CI_COMMIT_BRANCH"
+        run: |
+          echo "$JENKINS_SERVER_IP $JENKINS_SERVER_NAME" >> /etc/hosts
+          USERLIB_SDK_JOB_NAME="from_github_build_sdk_linux64"
+          curl --capath "/root/altair_certs" --cacert "/root/altair_certs/wildcard_europe_altair_com.crt" -i -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$CI_COMMIT_SHA&branch=$CI_COMMIT_BRANCH"
 
 
 
