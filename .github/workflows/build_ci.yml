@@ -1,0 +1,51 @@
+name: PR Merge CI MAIN
+
+on:
+
+  push:
+    branches:
+      - main
+
+env:
+  CLOSE_BRANCH: 0
+  TEAM_RESTRICTIVE_CLOSED_BRANCH: ${{ secrets.TEAM_RESTRICTIVE_CLOSED_BRANCH }}
+  FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+  TO_EMAIL: ${{ secrets.TO_EMAIL }}
+  MAIL_RELAY: ${{ secrets.MAIL_RELAY }}
+  QA_TIMEOUT_PER_TEST_LINUX: 150
+  QA_TIMEOUT_PER_TEST_WIN: 500
+
+jobs:
+
+  build_linux:      
+    runs-on: ["linux64"]
+    container: 
+      image: fr-qafactorydev.europe.altair.com/trigger-jenkins
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro  
+
+    env:
+
+    strategy:
+      # If one job fails others are canceled
+      fail-fast: true
+      matrix:
+        include:
+          - compiler: intel
+            precision: dp
+
+          - compiler: gfortrant
+            precision: sp
+
+    steps:
+      - name: Trigger jenkins
+      run: |
+        echo "$JENKINS_SERVER_IP $JENKINS_SERVER_NAME" >> /etc/hosts
+        USERLIB_SDK_JOB_NAME="from_github_build_sdk_linux64"
+        curl --capath "/root/altair_certs" --cacert "/root/altair_certs/wildcard_europe_altair_com.crt" -i -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$CI_COMMIT_SHA&branch=$CI_COMMIT_BRANCH"
+
+
+
