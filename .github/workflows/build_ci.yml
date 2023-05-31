@@ -43,8 +43,8 @@ jobs:
         run: |
           echo "$JENKINS_SERVER_IP $JENKINS_SERVER_NAME" >> /etc/hosts
           USERLIB_SDK_JOB_NAME="from_github_build_sdk_linux64"
-          echo "curl --capath \"/root/altair_certs\" --cacert \"/root/altair_certs/wildcard_europe_altair_com.crt\" -i -X POST \"$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$GITHUB_SHA&branch=$GITHUB_REF_NAME\""
-          # curl --capath "/root/altair_certs" --cacert "/root/altair_certs/wildcard_europe_altair_com.crt" -i -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$CI_COMMIT_SHA&branch=$CI_COMMIT_BRANCH"
+          curl --capath "/root/altair_certs" --cacert "/root/altair_certs/wildcard_europe_altair_com.crt" -i \
+            -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$CI_GITHUB_SHACOMMIT_SHA&branch=$GITHUB_REF_NAME&precision=${{ matrix.precision }}&compiler=${{ matrix.compiler }}"
 
 
 
