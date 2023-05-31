@@ -35,7 +35,7 @@ jobs:
           - compiler: intel
             precision: dp
 
-          - compiler: gfortrant
+          - compiler: gfortran
             precision: sp
 
     steps:
