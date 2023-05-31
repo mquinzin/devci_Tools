@@ -7,13 +7,9 @@ on:
       - main
 
 env:
-  CLOSE_BRANCH: 0
-  TEAM_RESTRICTIVE_CLOSED_BRANCH: ${{ secrets.TEAM_RESTRICTIVE_CLOSED_BRANCH }}
-  FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
-  TO_EMAIL: ${{ secrets.TO_EMAIL }}
-  MAIL_RELAY: ${{ secrets.MAIL_RELAY }}
-  QA_TIMEOUT_PER_TEST_LINUX: 150
-  QA_TIMEOUT_PER_TEST_WIN: 500
+  JENKINS_SERVER_IP: ${{ secrets.JENKINS_SERVER_IP }}
+  JENKINS_SERVER_NAME: ${{ secrets.JENKINS_SERVER_NAME }}
+  JENKINS_URL: ${{ secrets.JENKINS_URL }}
 
 jobs:
 
@@ -42,11 +38,12 @@ jobs:
       - name: Trigger jenkins
         run: |
           echo "$JENKINS_SERVER_IP $JENKINS_SERVER_NAME" >> /etc/hosts
+          cat /etc/hosts
           USERLIB_SDK_JOB_NAME="from_github_build_sdk_linux64"
           echo "curl --capath \"/root/altair_certs\" --cacert \"/root/altair_certs/wildcard_europe_altair_com.crt\" -i \
-            -X POST \"$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$CI_GITHUB_SHACOMMIT_SHA&branch=$GITHUB_REF_NAME&precision=${{ matrix.precision }}&compiler=${{ matrix.compiler}}\""
-          # curl --capath "/root/altair_certs" --cacert "/root/altair_certs/wildcard_europe_altair_com.crt" -i \
-            # -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$CI_GITHUB_SHACOMMIT_SHA&branch=$GITHUB_REF_NAME&precision=${{ matrix.precision }}&compiler=${{ matrix.compiler}}"
+            -X POST \"$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$GITHUB_SHA&branch=$GITHUB_REF_NAME&precision=${{ matrix.precision }}&compiler=${{ matrix.compiler}}\""
+          curl --capath "/root/altair_certs" --cacert "/root/altair_certs/wildcard_europe_altair_com.crt" -i \
+            -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$GITHUB_SHA&branch=$GITHUB_REF_NAME&precision=${{ matrix.precision }}&compiler=${{ matrix.compiler}}"
 
 
 
