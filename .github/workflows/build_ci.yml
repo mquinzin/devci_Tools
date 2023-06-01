@@ -28,24 +28,24 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          # - os: linux64
-          #   compiler: intel
-          #   precision: dp
-          # - os: linux64
-          #   compiler: intel
-          #   precision: sp
+          - os: linux64
+            compiler: intel
+            precision: dp
+          - os: linux64
+            compiler: intel
+            precision: sp
           - os: linuxa64
             compiler: armflang
             precision: dp
           - os: linuxa64
             compiler: armflang
             precision: sp
-          # - os: win64
-          #   compiler: intel
-          #   precision: dp
-          # - os: win64
-          #   compiler: intel
-          #   precision: sp            
+          - os: win64
+            compiler: intel
+            precision: dp
+          - os: win64
+            compiler: intel
+            precision: sp            
     steps:
       - name: Trigger jenkins
         run: |
