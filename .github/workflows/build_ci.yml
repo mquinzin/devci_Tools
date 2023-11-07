@@ -53,7 +53,6 @@ jobs:
         run: |
           echo "$JENKINS_SERVER_IP $JENKINS_SERVER_NAME" >> /etc/hosts
           cat /etc/hosts
-          ls /etc/docker/certs.d/fr-qafactorydev.europe.altair.com
           USERLIB_SDK_JOB_NAME="dev_from_github_build_sdk_${{ matrix.os }}"
           curl --capath "/etc/docker/certs.d/$CERTS_SERVER_NAME" --cacert "/etc/docker/certs.d/$CERTS_SERVER_NAME/wildcard_europe_altair_com.crt" -i \
             -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$GITHUB_SHA&branch=$GITHUB_REF_NAME&precision=${{ matrix.precision }}&compiler=${{ matrix.compiler}}"
