@@ -14,7 +14,8 @@ env:
 jobs:
 
   build_linux:      
-    runs-on: ["linux64"]
+    # runs-on: ["linux64"]
+    runs-on: ["linux64","azfr-trinity"]
     container: 
       image: fr-qafactorydev.europe.altair.com/trigger-jenkins
       credentials: 
