@@ -31,27 +31,27 @@ jobs:
           - os: linux64
             compiler: intel
             precision: dp
-          - os: linux64
-            compiler: intel
-            precision: sp
-          - os: linuxa64
-            compiler: armflang
-            precision: dp
-          - os: linuxa64
-            compiler: armflang
-            precision: sp
-          - os: win64
-            compiler: intel
-            precision: dp
-          - os: win64
-            compiler: intel
-            precision: sp            
+          # - os: linux64
+          #   compiler: intel
+          #   precision: sp
+          # - os: linuxa64
+          #   compiler: armflang
+          #   precision: dp
+          # - os: linuxa64
+          #   compiler: armflang
+          #   precision: sp
+          # - os: win64
+          #   compiler: intel
+          #   precision: dp
+          # - os: win64
+          #   compiler: intel
+          #   precision: sp            
     steps:
       - name: Trigger jenkins
         run: |
           echo "$JENKINS_SERVER_IP $JENKINS_SERVER_NAME" >> /etc/hosts
           cat /etc/hosts
-          USERLIB_SDK_JOB_NAME="from_github_build_sdk_${{ matrix.os }}"
+          USERLIB_SDK_JOB_NAME="dev_from_github_build_sdk_${{ matrix.os }}"
           curl --capath "/root/altair_certs" --cacert "/root/altair_certs/wildcard_europe_altair_com.crt" -i \
             -X POST "$JENKINS_URL/job/$USERLIB_SDK_JOB_NAME/buildWithParameters?commit_id=$GITHUB_SHA&branch=$GITHUB_REF_NAME&precision=${{ matrix.precision }}&compiler=${{ matrix.compiler}}"
 
