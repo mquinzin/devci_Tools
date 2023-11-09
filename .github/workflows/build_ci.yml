@@ -52,6 +52,7 @@ jobs:
       - name: Trigger jenkins
         run: |
           echo "$JENKINS_SERVER_IP $JENKINS_SERVER_NAME" >> /etc/hosts
+          echo "github.repository_owner : ${{ github.repository_owner }}"
           cat /etc/hosts
           USERLIB_SDK_JOB_NAME="dev_from_github_build_sdk_${{ matrix.os }}"
           curl --capath "/etc/docker/certs.d/$CERTS_SERVER_NAME" --cacert "/etc/docker/certs.d/$CERTS_SERVER_NAME/wildcard_europe_altair_com.crt" -i \
